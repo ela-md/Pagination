@@ -2,12 +2,14 @@ import ReactPaginate from 'react-paginate';
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css' 
 import { useEffect, useState } from 'react';
+import Comment from './components/Comment';
 function App() {
 
   const [comments, setComments] = useState([])
 
   const handlePageChange = (data) => {
-   const pageNumber = data.selected + 1
+   let pageNumber = data.selected + 1
+   fetchComments(pageNumber)
   }
 
   const fetchComments = (pageNumber) => {
@@ -24,6 +26,12 @@ function App() {
   return (
 
    <div className="App">
+
+     <div>
+      {comments.map((comment) => (
+        <Comment key={comment.id} {...comment} />
+      ))}
+     </div>
 
    <ReactPaginate
 
