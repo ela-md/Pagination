@@ -1,10 +1,28 @@
 import ReactPaginate from 'react-paginate';
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css' 
+import { useEffect, useState } from 'react';
 function App() {
- 
+
+  const [comments, setComments] = useState([])
+
+  const handlePageChange = (data) => {
+   const pageNumber = data.selected + 1
+  }
+
+  const fetchComments = (pageNumber) => {
+   fetch(`https://jsonplaceholder.typicode.com/comments?_page=${pageNumber}`)
+    .then(response => response.json())
+    .then(comments => setComments(comments))
+    
+  }
+
+  useEffect(()=> {
+      fetchComments(1)
+  }, [])
 
   return (
+
    <div className="App">
 
    <ReactPaginate
@@ -25,6 +43,8 @@ function App() {
         breakClassName='page-item'
         breakLinkClassName='page-link'
         activeLinkClassName='active'
+
+        onPageChange={handlePageChange}
 
    
    />
