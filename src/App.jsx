@@ -6,6 +6,7 @@ import Comment from './components/Comment';
 function App() {
 
   const [comments, setComments] = useState([])
+  const [pageCount, setPageCount] = useState(0)
 
   const handlePageChange = (data) => {
    let pageNumber = data.selected + 1
@@ -14,7 +15,10 @@ function App() {
 
   const fetchComments = (pageNumber) => {
    fetch(`https://jsonplaceholder.typicode.com/comments?_page=${pageNumber}`)
-    .then(response => response.json())
+    .then(response => {
+      setPageCount(Math.ceil(response.headers.get('x-total-count') / 10) )
+      return response.json()
+    })
     .then(comments => setComments(comments))
     
   }
